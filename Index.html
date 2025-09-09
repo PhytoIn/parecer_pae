@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parecer PAE - FFCLRP-USP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .input-with-gender {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .input-with-gender input[type="text"] {
+            flex: 1;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 15px;
+            background: #f3f4f6;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .gender-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .gender-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+            cursor: pointer;
+        }
+
+        .gender-option label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .section-title {
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .radio-group {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .radio-option:hover {
+            background: #f3f4f6;
+        }
+
+        .radio-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 2px;
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            flex: 1;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .discordance-field {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .additional-info-field {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .discordance-field.show, .additional-info-field.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .result h3 {
+            color: #166534;
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-content {
+            color: #166534;
+            line-height: 1.8;
+            font-size: 15px;
+            white-space: pre-wrap;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .copy-btn, .new-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .new-btn {
+            background: #3b82f6;
+        }
+
+        .copy-btn:hover {
+            background: #16a34a;
+            transform: translateY(-1px);
+        }
+
+        .new-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn.copied {
+            background: #166534;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        ::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sistema de Parecer PAE</h1>
+            <p>FFCLRP - USP</p>
+        </div>
+
+        <div class="form-container">
+            <div class="form-group">
+                <label for="aluno">Aluno(a):</label>
+                <div class="input-with-gender">
+                    <input type="text" id="aluno" placeholder="Nome completo do aluno(a)">
+                    <div class="gender-options">
+                        <div class="gender-option">
+                            <input type="radio" id="aluno-f" name="aluno-gender" value="F">
+                            <label for="aluno-f">F</label>
+                        </div>
+                        <div class="gender-option">
+                            <input type="radio" id="aluno-m" name="aluno-gender" value="M">
+                            <label for="aluno-m">M</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="disciplina">Disciplina:</label>
+                <input type="text" id="disciplina" placeholder="Nome da disciplina">
+            </div>
+
+            <div class="form-group">
+                <label for="supervisor">Supervisor(a):</label>
+                <div class="input-with-gender">
+                    <input type="text" id="supervisor" placeholder="Nome completo do supervisor(a)">
+                    <div class="gender-options">
+                        <div class="gender-option">
+                            <input type="radio" id="supervisor-f" name="supervisor-gender" value="F">
+                            <label for="supervisor-f">F</label>
+                        </div>
+                        <div class="gender-option">
+                            <input type="radio" id="supervisor-m" name="supervisor-gender" value="M">
+                            <label for="supervisor-m">M</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Avaliação do Relatório</h2>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" id="opcao1" name="avaliacao" value="1">
+                    <label for="opcao1">Bom desempenho do(a) aluno(a) e o cumprimento dos objetivos propostos.</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="opcao2" name="avaliacao" value="2">
+                    <label for="opcao2">Os relatórios do(a) aluno(a) foram discordantes e/ou problemas foram relatados.</label>
+                </div>
+            </div>
+
+            <div id="additionalInfoField" class="additional-info-field">
+                <label for="additionalInfo">Informações adicionais (opcional):</label>
+                <textarea id="additionalInfo" placeholder="Exemplo: O(a) supervisor(a) destaco que o(a) aluno(a)..."></textarea>
+            </div>
+
+            <div id="discordanceField" class="discordance-field">
+                <label for="discordance">Descreva a discordância e/ou o problema relatado:</label>
+                <textarea id="discordance" placeholder="Detalhe aqui os problemas ou discordâncias encontradas..."></textarea>
+            </div>
+
+            <h2 class="section-title">Sugestões (opcional)</h2>
+            
+            <div class="form-group">
+                <label for="sugestao-aluno">Sugestões/comentários do(a) aluno(a):</label>
+                <textarea id="sugestao-aluno" placeholder="Exemplo: O(a) aluno(a) sugere/comenta que..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="sugestao-supervisor">Sugestões/comentários do(a) supervisor(a):</label>
+                <textarea id="sugestao-supervisor" placeholder="Exemplo: O(a) supervisor(a) sugere/comenta que..."></textarea>
+            </div>
+
+            <button class="btn" onclick="gerarRelatorio()">Gerar Parecer</button>
+
+            <div id="result" class="result">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    Parecer Gerado
+                </h3>
+                <div id="resultContent" class="result-content"></div>
+                <div class="button-group">
+                    <button class="copy-btn" onclick="copiarParecer()">Copiar Parecer</button>
+                    <button class="new-btn" onclick="novoParecer()">Novo Parecer</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2025 Rodrigo Pereira
+        </div>
+    </div>
+
+    <script>
+        // Lista de nomes femininos comuns no Brasil
+        const nomesFemininos = [
+            'maria', 'ana', 'francisca', 'antonia', 'adriana', 'juliana', 'marcia', 'fernanda',
+            'patricia', 'aline', 'sandra', 'camila', 'amanda', 'bruna', 'jessica', 'leticia',
+            'julia', 'luciana', 'vanessa', 'mariana', 'gabriela', 'rafaela', 'daniela', 'carla',
+            'debora', 'renata', 'monica', 'cristina', 'natalia', 'paula', 'caroline', 'raquel',
+            'beatriz', 'isabela', 'alice', 'laura', 'luiza', 'clara', 'cecilia', 'helena',
+            'eliane', 'eliana', 'elisangela', 'elisa', 'elisabete', 'elisabeth', 'elza', 'elvira',
+            'fabiana', 'fatima', 'flavia', 'gabrielle', 'geovana', 'giovana', 'gisele', 'gislaine',
+            'gloria', 'grace', 'graziela', 'heloisa', 'ines', 'ingrid', 'irene', 'isabel',
+            'jaqueline', 'janaina', 'jane', 'janete', 'joana', 'josefa', 'joyce', 'jussara',
+            'karina', 'karla', 'katia', 'kelly', 'lara', 'larissa', 'leila', 'leilane',
+            'lidia', 'lilian', 'liliane', 'livia', 'luana', 'lucia', 'luzia', 'madalena',
+            'magda', 'maiara', 'mara', 'marcela', 'margarete', 'margarida', 'marina', 'marlene',
+            'marta', 'meire', 'melissa', 'michele', 'milena', 'miriam', 'nadia', 'nair',
+            'nancy', 'natasha', 'neide', 'neuza', 'nicole', 'nilza', 'norma', 'olga',
+            'olivia', 'paloma', 'pamela', 'paola', 'priscila', 'rayane', 'rebeca', 'regina',
+            'rejane', 'renata', 'rita', 'roberta', 'rosa', 'rosana', 'rosane', 'rosangela',
+            'rose', 'roseli', 'rosemary', 'rosimeire', 'rosana', 'rute', 'sabrina', 'samantha',
+            'samara', 'sara', 'selma', 'sheila', 'shirley', 'silmara', 'silvia', 'silvana',
+            'simone', 'sofia', 'solange', 'sonia', 'soraia', 'sueli', 'suellen', 'suzana',
+            'taina', 'tais', 'talita', 'tamara', 'tamires', 'tania', 'tatiana', 'tatiane',
+            'telma', 'teresa', 'tereza', 'thais', 'thamires', 'thayane', 'valeria', 'valquiria',
+            'vanda', 'vania', 'vera', 'veronica', 'victoria', 'vilma', 'virginia', 'vitoria',
+            'viviane', 'vivian', 'yasmin', 'yara', 'zelia', 'zilda', 'zuleica', 'zulmira'
+        ];
+
+        // Detectar gênero baseado no nome
+        function detectarGenero(nome, tipo) {
+            if (!nome) return;
+            
+            const primeiroNome = nome.trim().split(' ')[0].toLowerCase();
+            const terminacoesComuns = primeiroNome.slice(-1);
+            
+            // Verifica se está na lista de nomes femininos
+            const ehFeminino = nomesFemininos.some(nomeF => primeiroNome.includes(nomeF)) || 
+                              terminacoesComuns === 'a' || 
+                              primeiroNome.endsWith('ela') || 
+                              primeiroNome.endsWith('ina') ||
+                              primeiroNome.endsWith('ana') ||
+                              primeiroNome.endsWith('iana') ||
+                              primeiroNome.endsWith('ice') ||
+                              primeiroNome.endsWith('ilda');
+            
+            if (tipo === 'aluno') {
+                document.getElementById(ehFeminino ? 'aluno-f' : 'aluno-m').checked = true;
+            } else {
+                document.getElementById(ehFeminino ? 'supervisor-f' : 'supervisor-m').checked = true;
+            }
+        }
+
+        // Event listeners para detecção automática
+        document.getElementById('aluno').addEventListener('blur', function() {
+            if (!document.querySelector('input[name="aluno-gender"]:checked')) {
+                detectarGenero(this.value, 'aluno');
+            }
+        });
+
+        document.getElementById('supervisor').addEventListener('blur', function() {
+            if (!document.querySelector('input[name="supervisor-gender"]:checked')) {
+                detectarGenero(this.value, 'supervisor');
+            }
+        });
+
+        // Mostrar/ocultar campos condicionais
+        document.querySelectorAll('input[name="avaliacao"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const discordanceField = document.getElementById('discordanceField');
+                const additionalInfoField = document.getElementById('additionalInfoField');
+                
+                if (this.value === '1') {
+                    additionalInfoField.classList.add('show');
+                    discordanceField.classList.remove('show');
+                } else if (this.value === '2') {
+                    discordanceField.classList.add('show');
+                    additionalInfoField.classList.remove('show');
+                }
+            });
+        });
+
+        function gerarRelatorio() {
+            const aluno = document.getElementById('aluno').value;
+            const disciplina = document.getElementById('disciplina').value;
+            const supervisor = document.getElementById('supervisor').value;
+            const generoAluno = document.querySelector('input[name="aluno-gender"]:checked');
+            const generoSupervisor = document.querySelector('input[name="supervisor-gender"]:checked');
+            const avaliacao = document.querySelector('input[name="avaliacao"]:checked');
+            
+            if (!aluno || !disciplina || !supervisor || !generoAluno || !generoSupervisor || !avaliacao) {
+                alert('Por favor, preencha todos os campos obrigatórios e selecione o sexo do aluno(a) e supervisor(a).');
+                return;
+            }
+
+            // Iniciar com cabeçalho
+            let parecer = `Aluno(a): ${aluno}\nDisciplina: ${disciplina}\nSupervisor(a): ${supervisor}\n\n`;
+            
+            // Determinar artigos baseado no gênero
+            const artigoAluno = generoAluno.value === 'F' ? 'a' : 'o';
+            const artigoAlunoPlural = generoAluno.value === 'F' ? 'da' : 'do';
+            const artigoSupervisor = generoSupervisor.value === 'F' ? 'a' : 'o';
+            const artigoSupervisorPlural = generoSupervisor.value === 'F' ? 'da' : 'do';
+            const alunoTermo = generoAluno.value === 'F' ? 'aluna' : 'aluno';
+            const supervisorTermo = generoSupervisor.value === 'F' ? 'supervisora' : 'supervisor';
+
+            if (avaliacao.value === '1') {
+                parecer += `Os relatórios d${artigoAluno} ${alunoTermo} e d${artigoSupervisor} ${supervisorTermo} foram concordantes, indicando o bom desempenho d${artigoAluno} ${alunoTermo} e o cumprimento dos objetivos propostos.`;
+                
+                // Adicionar informações adicionais se houver
+                const infoAdicional = document.getElementById('additionalInfo').value.trim();
+                if (infoAdicional) {
+                    const infoLimpa = infoAdicional.replace(/^Exemplo:\s*/i, '');
+                    parecer += ` ${infoLimpa}`;
+                }
+            } else {
+                const discordancia = document.getElementById('discordance').value;
+                if (!discordancia) {
+                    alert('Por favor, descreva a discordância ou problema relatado.');
+                    return;
+                }
+                parecer += `Os relatórios d${artigoAluno} ${alunoTermo} e d${artigoSupervisor} ${supervisorTermo} apresentaram discordâncias. ${discordancia}`;
+            }
+
+            // Adicionar sugestões se houver - tudo em um único parágrafo
+            const sugestaoAluno = document.getElementById('sugestao-aluno').value.trim();
+            const sugestaoSupervisor = document.getElementById('sugestao-supervisor').value.trim();
+
+            if (sugestaoAluno) {
+                // Remove "Exemplo:" se o usuário não apagou
+                const sugestaoLimpa = sugestaoAluno.replace(/^Exemplo:\s*/i, '');
+                parecer += ` ${sugestaoLimpa}`;
+            }
+
+            if (sugestaoSupervisor) {
+                // Remove "Exemplo:" se o usuário não apagou
+                const sugestaoLimpa = sugestaoSupervisor.replace(/^Exemplo:\s*/i, '');
+                parecer += ` ${sugestaoLimpa}`;
+            }
+
+            // Exibir resultado
+            document.getElementById('resultContent').textContent = parecer;
+            document.getElementById('result').classList.add('show');
+            
+            // Scroll suave até o resultado
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function copiarParecer() {
+            const parecer = document.getElementById('resultContent').textContent;
+            const btn = document.querySelector('.copy-btn');
+            
+            // Fallback para navegadores que não suportam clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(parecer).then(function() {
+                    const originalText = btn.textContent;
+                    btn.textContent = 'Copiado!';
+                    btn.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.classList.remove('copied');
+                    }, 2000);
+                }).catch(function(err) {
+                    // Fallback método alternativo
+                    copiarTextoAlternativo(parecer);
+                });
+            } else {
+                // Método alternativo para navegadores mais antigos
+                copiarTextoAlternativo(parecer);
+            }
+        }
+        
+        function copiarTextoAlternativo(texto) {
+            const textArea = document.createElement('textarea');
+            textArea.value = texto;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copiado!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                alert('Não foi possível copiar o texto. Por favor, selecione e copie manualmente.');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function novoParecer() {
+            // Limpar todos os campos
+            document.getElementById('aluno').value = '';
+            document.getElementById('disciplina').value = '';
+            document.getElementById('supervisor').value = '';
+            document.getElementById('discordance').value = '';
+            document.getElementById('additionalInfo').value = '';
+            document.getElementById('sugestao-aluno').value = '';
+            document.getElementById('sugestao-supervisor').value = '';
+            
+            // Desmarcar radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            
+            // Ocultar campos condicionais
+            document.getElementById('discordanceField').classList.remove('show');
+            document.getElementById('additionalInfoField').classList.remove('show');
+            
+            // Ocultar resultado
+            document.getElementById('result').classList.remove('show');
+            
+            // Scroll para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Focar no primeiro campo
+            document.getElementById('aluno').focus();
+        }
+    </script>
+</body>
+</html>
