@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avaliação PAE - FFCLRP-USP</title>
+    <title>Parecer PAE - FFCLRP-USP</title>
+
+    <!-- OCR (português) e geração de .docx: globais Tesseract e docx -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@9.0.3/build/index.umd.js"></script>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -34,24 +35,13 @@
             text-align: center;
         }
 
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
+        .header h1 { font-size: 28px; margin-bottom: 10px; font-weight: 600; }
+        .header p { opacity: 0.9; font-size: 16px; }
+        .header .version { font-size: 13px; opacity: 0.8; margin-bottom: 4px; letter-spacing: 0.5px; }
 
-        .header p {
-            opacity: 0.9;
-            font-size: 16px;
-        }
+        .form-container { padding: 40px; }
 
-        .form-container {
-            padding: 40px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
+        .form-group { margin-bottom: 25px; }
 
         .form-group label {
             display: block;
@@ -61,15 +51,8 @@
             font-size: 15px;
         }
 
-        .input-with-gender {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .input-with-gender input[type="text"] {
-            flex: 1;
-        }
+        .input-with-gender { display: flex; align-items: center; gap: 15px; }
+        .input-with-gender input[type="text"] { flex: 1; }
 
         input[type="text"], textarea {
             width: 100%;
@@ -88,11 +71,7 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-            font-family: inherit;
-        }
+        textarea { resize: vertical; min-height: 100px; font-family: inherit; }
 
         .gender-options {
             display: flex;
@@ -102,24 +81,9 @@
             border-radius: 8px;
         }
 
-        .gender-option {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .gender-option input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #667eea;
-            cursor: pointer;
-        }
-
-        .gender-option label {
-            margin-bottom: 0;
-            cursor: pointer;
-            font-size: 14px;
-        }
+        .gender-option { display: flex; align-items: center; gap: 5px; }
+        .gender-option input[type="radio"] { width: 18px; height: 18px; accent-color: #667eea; cursor: pointer; }
+        .gender-option label { margin-bottom: 0; cursor: pointer; font-size: 14px; }
 
         .section-title {
             color: #1f2937;
@@ -148,13 +112,8 @@
             border-radius: 8px;
         }
 
-        .radio-option:hover {
-            background: #f3f4f6;
-        }
-
-        .radio-option:last-child {
-            margin-bottom: 0;
-        }
+        .radio-option:hover { background: #f3f4f6; }
+        .radio-option:last-child { margin-bottom: 0; }
 
         .radio-option input[type="radio"] {
             margin-right: 12px;
@@ -165,11 +124,7 @@
             cursor: pointer;
         }
 
-        .radio-option label {
-            flex: 1;
-            cursor: pointer;
-            line-height: 1.5;
-        }
+        .radio-option label { flex: 1; cursor: pointer; line-height: 1.5; }
 
         .discordance-field {
             margin-top: 20px;
@@ -189,20 +144,11 @@
             display: none;
         }
 
-        .discordance-field.show, .additional-info-field.show {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
+        .discordance-field.show, .additional-info-field.show { display: block; animation: slideDown 0.3s ease; }
 
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .btn {
@@ -220,14 +166,8 @@
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); }
+        .btn:active { transform: translateY(0); }
 
         .result {
             margin-top: 30px;
@@ -238,19 +178,9 @@
             display: none;
         }
 
-        .result.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
+        .result.show { display: block; animation: fadeIn 0.5s ease; }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .result h3 {
             color: #166534;
@@ -261,18 +191,10 @@
             gap: 10px;
         }
 
-        .result-content {
-            color: #166534;
-            line-height: 1.8;
-            font-size: 15px;
-            white-space: pre-wrap;
-        }
+        .result-content { color: #166534; line-height: 1.8; font-size: 15px; white-space: pre-wrap; }
+        .copy-note { color: #166534; font-size: 13px; line-height: 1.5; margin-top: 14px; background: #ffffff; border: 1px dashed #86efac; border-radius: 8px; padding: 10px 12px; }
 
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
+        .button-group { display: flex; gap: 10px; margin-top: 15px; }
 
         .copy-btn, .new-btn {
             background: #22c55e;
@@ -287,45 +209,228 @@
             flex: 1;
         }
 
-        .new-btn {
-            background: #3b82f6;
+        .new-btn { background: #3b82f6; }
+        .copy-btn:hover { background: #16a34a; transform: translateY(-1px); }
+        .new-btn:hover { background: #2563eb; transform: translateY(-1px); }
+        .copy-btn.copied { background: #166534; }
+
+        .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
+
+        ::placeholder { color: #9ca3af; opacity: 1; }
+
+        /* ===== Importação de PDF ===== */
+        .import-section {
+            border: 2px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 30px;
+            background: #fbfbfe;
         }
 
-        .copy-btn:hover {
-            background: #16a34a;
-            transform: translateY(-1px);
+        .import-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .new-btn:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        .copy-btn.copied {
-            background: #166534;
-        }
-
-        .footer {
+        .dropzone {
+            border: 2px dashed #b3bff0;
+            border-radius: 12px;
+            padding: 30px 20px;
             text-align: center;
-            padding: 20px;
-            color: #6b7280;
-            font-size: 14px;
+            color: #4b5563;
+            cursor: pointer;
+            background: #f6f7ff;
+            transition: all 0.2s ease;
         }
+        .dropzone:hover { border-color: #667eea; background: #eef0ff; }
+        .dropzone.dragover { border-color: #667eea; background: #e6eaff; transform: scale(1.01); }
+        .dropzone strong { color: #4f46e5; }
+        .dropzone small { display: block; margin-top: 8px; color: #9ca3af; }
 
-        ::placeholder {
-            color: #9ca3af;
-            opacity: 1;
+        .progress-box {
+            margin-top: 16px;
+            padding: 16px;
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 10px;
+            color: #3730a3;
+            font-size: 14px;
+            display: none;
         }
+        .progress-box.show { display: block; }
+        .spinner {
+            display: inline-block;
+            width: 16px; height: 16px;
+            border: 3px solid #c7d2fe;
+            border-top-color: #4f46e5;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .progress-bar { height: 6px; background: #dbeafe; border-radius: 4px; margin-top: 10px; overflow: hidden; }
+        .progress-bar > div { height: 100%; width: 0%; background: #4f46e5; transition: width 0.2s ease; }
+
+        .status-panel {
+            margin-top: 16px;
+            padding: 18px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            display: none;
+        }
+        .status-panel.show { display: block; }
+        .status-stats { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 6px; }
+        .stat { text-align: center; }
+        .stat .num { font-size: 26px; font-weight: 700; color: #1d4ed8; line-height: 1; }
+        .stat .lbl { font-size: 12px; color: #475569; margin-top: 4px; }
+        .warnings { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #bfdbfe; }
+        .warnings ul { margin: 6px 0 0 18px; }
+        .warnings li { font-size: 13px; color: #92400e; margin-bottom: 3px; }
+        .warnings .ok { color: #166534; list-style: none; margin-left: -18px; }
+
+        .nav-panel {
+            margin-top: 16px;
+            padding: 18px;
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            border-radius: 12px;
+            display: none;
+        }
+        .nav-panel.show { display: block; }
+        .pos-indicator { font-weight: 600; color: #6b21a8; margin-bottom: 4px; font-size: 15px; }
+        .pos-sub { font-size: 13px; color: #7c3aed; margin-bottom: 12px; }
+        .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+        .badge-ocr { background: #fef3c7; color: #92400e; }
+        .badge-warn { background: #fee2e2; color: #991b1b; }
+        .badge-ok { background: #dcfce7; color: #166534; }
+
+        .nav-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .nav-btn {
+            border: none;
+            padding: 11px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+            min-width: 130px;
+        }
+        .nav-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn-open  { background: #4f46e5; color: #fff; }
+        .btn-open:hover:not(:disabled)  { background: #4338ca; }
+        .btn-prev  { background: #e5e7eb; color: #374151; }
+        .btn-prev:hover:not(:disabled)  { background: #d1d5db; }
+        .btn-next  { background: #7c3aed; color: #fff; }
+        .btn-next:hover:not(:disabled)  { background: #6d28d9; }
+        .btn-stop  { background: #f59e0b; color: #fff; }
+        .btn-stop:hover:not(:disabled)  { background: #d97706; }
+        .btn-export{ background: #059669; color: #fff; }
+        .btn-export:hover:not(:disabled){ background: #047857; }
+
+        .done-banner {
+            margin-top: 14px;
+            padding: 16px;
+            background: #dcfce7;
+            border: 1px solid #86efac;
+            border-radius: 10px;
+            color: #166534;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+        .done-banner.show { display: block; }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #111827;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .import-error {
+            margin-top: 14px;
+            padding: 14px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            color: #991b1b;
+            font-size: 14px;
+            display: none;
+        }
+        .import-error.show { display: block; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Avaliação PAE</h1>
+            <h1>Sistema de Parecer PAE</h1>
+            <p class="version">Versão 2.0</p>
             <p>FFCLRP - USP</p>
         </div>
 
         <div class="form-container">
+
+            <!-- ===== Importação de PDF ===== -->
+            <div class="import-section">
+                <div class="import-title">📄 Importar relatórios (PDF)</div>
+
+                <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Selecionar PDF">
+                    Arraste o PDF aqui ou <strong>clique para selecionar</strong>
+                    <small>Relatórios do estagiário + fichas do supervisor no mesmo arquivo</small>
+                </div>
+                <input type="file" id="fileInput" accept="application/pdf" style="display:none">
+
+                <div id="importError" class="import-error"></div>
+
+                <div id="progressBox" class="progress-box">
+                    <span class="spinner"></span><span id="progressText">Processando…</span>
+                    <div class="progress-bar"><div id="progressFill"></div></div>
+                </div>
+
+                <div id="statusPanel" class="status-panel">
+                    <div class="status-stats">
+                        <div class="stat"><div class="num" id="statAlunos">0</div><div class="lbl">relatórios de alunos</div></div>
+                        <div class="stat"><div class="num" id="statFichas">0</div><div class="lbl">com ficha do supervisor</div></div>
+                        <div class="stat"><div class="num" id="statTotal">0</div><div class="lbl">itens para avaliar</div></div>
+                    </div>
+                    <div class="warnings" id="warnings"></div>
+                </div>
+
+                <div id="navPanel" class="nav-panel">
+                    <div class="pos-indicator" id="posIndicator">—</div>
+                    <div class="pos-sub" id="posSub"></div>
+                    <div class="badges" id="badges"></div>
+                    <div class="nav-actions">
+                        <button class="nav-btn btn-open"  id="btnOpen">Abrir relatório no PDF</button>
+                        <button class="nav-btn btn-prev"  id="btnPrev">◀ Anterior</button>
+                        <button class="nav-btn btn-next"  id="btnNext">Avaliar próximo ▶</button>
+                        <button class="nav-btn btn-stop"  id="btnStop">Parar e salvar posição</button>
+                        <button class="nav-btn btn-export" id="btnExport">Exportar todos (.docx)</button>
+                    </div>
+                    <div id="doneBanner" class="done-banner">✅ Todos os relatórios foram avaliados.</div>
+                </div>
+            </div>
+
+            <!-- ===== Formulário do parecer (modo manual e importado) ===== -->
             <div class="form-group">
                 <label for="aluno">Aluno(a):</label>
                 <div class="input-with-gender">
@@ -388,7 +493,7 @@
             </div>
 
             <h2 class="section-title">Sugestões (opcional)</h2>
-            
+
             <div class="form-group">
                 <label for="sugestao-aluno">Sugestões/comentários do(a) aluno(a):</label>
                 <textarea id="sugestao-aluno" placeholder="Exemplo: O(a) aluno(a) sugere/comenta que..."></textarea>
@@ -399,7 +504,7 @@
                 <textarea id="sugestao-supervisor" placeholder="Exemplo: O(a) supervisor(a) sugere/comenta que..."></textarea>
             </div>
 
-            <button class="btn" onclick="gerarRelatorio()">Gerar Parecer</button>
+            <button class="btn" id="btnGerar">Gerar Parecer</button>
 
             <div id="result" class="result">
                 <h3>
@@ -410,20 +515,27 @@
                     Parecer Gerado
                 </h3>
                 <div id="resultContent" class="result-content"></div>
+                <p class="copy-note">Você pode copiar este parecer e colá-lo manualmente onde precisar, ou salvar todos de uma vez em <strong>.docx</strong> ao final do processo (botão “Exportar todos”).</p>
                 <div class="button-group">
-                    <button class="copy-btn" onclick="copiarParecer()">Copiar Parecer</button>
-                    <button class="new-btn" onclick="novoParecer()">Novo Parecer</button>
+                    <button class="copy-btn" id="btnCopiar">Copiar Parecer</button>
+                    <button class="new-btn" id="btnProximo">Próximo parecer ▶</button>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            © 2025 Rodrigo Pereira
-        </div>
+        <div class="footer">© 2026 Rodrigo Pereira</div>
     </div>
 
-    <script>
-        // Lista de nomes femininos comuns no Brasil
+    <div id="toast" class="toast"></div>
+
+    <script type="module">
+        import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/build/pdf.min.mjs';
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+            'https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/build/pdf.worker.min.mjs';
+
+        /* ============================================================
+           Lista de nomes femininos comuns no Brasil (detecção de gênero)
+           ============================================================ */
         const nomesFemininos = [
             'maria', 'ana', 'francisca', 'antonia', 'adriana', 'juliana', 'marcia', 'fernanda',
             'patricia', 'aline', 'sandra', 'camila', 'amanda', 'bruna', 'jessica', 'leticia',
@@ -450,49 +562,85 @@
             'viviane', 'vivian', 'yasmin', 'yara', 'zelia', 'zilda', 'zuleica', 'zulmira'
         ];
 
-        // Detectar gênero baseado no nome
-        function detectarGenero(nome, tipo) {
-            if (!nome) return;
-            
-            const primeiroNome = nome.trim().split(' ')[0].toLowerCase();
-            const terminacoesComuns = primeiroNome.slice(-1);
-            
-            // Verifica se está na lista de nomes femininos
-            const ehFeminino = nomesFemininos.some(nomeF => primeiroNome.includes(nomeF)) || 
-                              terminacoesComuns === 'a' || 
-                              primeiroNome.endsWith('ela') || 
-                              primeiroNome.endsWith('ina') ||
-                              primeiroNome.endsWith('ana') ||
-                              primeiroNome.endsWith('iana') ||
-                              primeiroNome.endsWith('ice') ||
-                              primeiroNome.endsWith('ilda');
-            
-            if (tipo === 'aluno') {
-                document.getElementById(ehFeminino ? 'aluno-f' : 'aluno-m').checked = true;
-            } else {
-                document.getElementById(ehFeminino ? 'supervisor-f' : 'supervisor-m').checked = true;
-            }
+        // Remove títulos acadêmicos do início do nome (Prof., Dr., Profa., Drª., Prof.ª. Drª., etc.)
+        function stripTitulo(nome) {
+            let s = (nome || '').trim();
+            let prev;
+            const re = /^(?:prof|professor|professora|profa|dr|dra|doutor|doutora)(?=[\s.ªº])[\s.ªº]*/i;
+            do { prev = s; s = s.replace(re, '').trim(); } while (s !== prev && s);
+            return s;
         }
 
-        // Event listeners para detecção automática
+        // Partículas de nomes brasileiros que ficam em minúsculo (exceto no início)
+        const PARTICULAS = new Set(['de', 'da', 'do', 'dos', 'das', 'e', 'di', 'du', 'del', 'della', 'van', 'von', 'y', 'la']);
+
+        function capitalizarPalavra(seg) {
+            if (!seg) return seg;
+            return seg.charAt(0).toLocaleUpperCase('pt-BR') + seg.slice(1).toLocaleLowerCase('pt-BR');
+        }
+
+        // Grafia padronizada: 1ª letra maiúscula; partículas (de, da, do…) minúsculas
+        function tituloCasePtBR(nome) {
+            const limpo = cleanSpaces(nome || '').toLocaleLowerCase('pt-BR');
+            if (!limpo) return '';
+            return limpo.split(/\s+/).map((w, i) =>
+                w.split('-').map(seg => (i > 0 && PARTICULAS.has(seg)) ? seg : capitalizarPalavra(seg)).join('-')
+            ).join(' ');
+        }
+
+        function tituloPadrao(genero) { return genero === 'F' ? 'Profa. Dra. ' : 'Prof. Dr. '; }
+
+        function inferirGenero(nome) {
+            const primeiro = stripDiacritics(stripTitulo(nome || '').split(/\s+/)[0] || '').toLowerCase();
+            if (!primeiro) return 'M';
+            const ehFeminino = nomesFemininos.some(f => primeiro.includes(f)) ||
+                primeiro.endsWith('a') || primeiro.endsWith('ela') || primeiro.endsWith('ina') ||
+                primeiro.endsWith('ana') || primeiro.endsWith('iana') || primeiro.endsWith('ice') ||
+                primeiro.endsWith('ilda');
+            return ehFeminino ? 'F' : 'M';
+        }
+
+        function marcarGenero(tipo, genero) {
+            const id = tipo === 'aluno'
+                ? (genero === 'F' ? 'aluno-f' : 'aluno-m')
+                : (genero === 'F' ? 'supervisor-f' : 'supervisor-m');
+            const el = document.getElementById(id);
+            if (el) el.checked = true;
+        }
+
+        // Nome de aluno(a): apenas grafia padronizada
+        function padronizarNomeAluno(nome) { return tituloCasePtBR(stripTitulo(nome || '')); }
+
+        // Nome de supervisor(a): grafia padronizada + título padronizado por gênero
+        function padronizarNomeSupervisor(nome, genero) {
+            const base = tituloCasePtBR(stripTitulo(nome || ''));
+            return base ? (tituloPadrao(genero) + base) : '';
+        }
+
+        /* ============================================================
+           Detecção automática de gênero + campos condicionais
+           ============================================================ */
         document.getElementById('aluno').addEventListener('blur', function() {
-            if (!document.querySelector('input[name="aluno-gender"]:checked')) {
-                detectarGenero(this.value, 'aluno');
-            }
+            if (!this.value.trim()) return;
+            const nome = padronizarNomeAluno(this.value);
+            this.value = nome;
+            if (!document.querySelector('input[name="aluno-gender"]:checked')) marcarGenero('aluno', inferirGenero(nome));
+            if (importAtivo() && estado.pares[estado.indiceAtual]) estado.pares[estado.indiceAtual].aluno = nome;
         });
-
         document.getElementById('supervisor').addEventListener('blur', function() {
-            if (!document.querySelector('input[name="supervisor-gender"]:checked')) {
-                detectarGenero(this.value, 'supervisor');
-            }
+            if (!this.value.trim()) return;
+            const g = document.querySelector('input[name="supervisor-gender"]:checked');
+            const genero = g ? g.value : inferirGenero(this.value);
+            const nome = padronizarNomeSupervisor(this.value, genero);
+            this.value = nome;
+            if (!g) marcarGenero('supervisor', genero);
+            if (importAtivo() && estado.pares[estado.indiceAtual]) estado.pares[estado.indiceAtual].supervisor = nome;
         });
 
-        // Mostrar/ocultar campos condicionais
         document.querySelectorAll('input[name="avaliacao"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 const discordanceField = document.getElementById('discordanceField');
                 const additionalInfoField = document.getElementById('additionalInfoField');
-                
                 if (this.value === '1') {
                     additionalInfoField.classList.add('show');
                     discordanceField.classList.remove('show');
@@ -503,6 +651,9 @@
             });
         });
 
+        /* ============================================================
+           Geração / cópia / limpeza do parecer (modo manual)
+           ============================================================ */
         function gerarRelatorio() {
             const aluno = document.getElementById('aluno').value;
             const disciplina = document.getElementById('disciplina').value;
@@ -510,31 +661,24 @@
             const generoAluno = document.querySelector('input[name="aluno-gender"]:checked');
             const generoSupervisor = document.querySelector('input[name="supervisor-gender"]:checked');
             const avaliacao = document.querySelector('input[name="avaliacao"]:checked');
-            
+
             if (!aluno || !disciplina || !supervisor || !generoAluno || !generoSupervisor || !avaliacao) {
                 alert('Por favor, preencha todos os campos obrigatórios e selecione o sexo do aluno(a) e supervisor(a).');
                 return;
             }
 
-            // Iniciar com cabeçalho
             let parecer = `Aluno(a): ${aluno}\nDisciplina: ${disciplina}\nSupervisor(a): ${supervisor}\n\n`;
-            
-            // Determinar artigos baseado no gênero
+
             const artigoAluno = generoAluno.value === 'F' ? 'a' : 'o';
-            const artigoAlunoPlural = generoAluno.value === 'F' ? 'da' : 'do';
             const artigoSupervisor = generoSupervisor.value === 'F' ? 'a' : 'o';
-            const artigoSupervisorPlural = generoSupervisor.value === 'F' ? 'da' : 'do';
             const alunoTermo = generoAluno.value === 'F' ? 'aluna' : 'aluno';
             const supervisorTermo = generoSupervisor.value === 'F' ? 'supervisora' : 'supervisor';
 
             if (avaliacao.value === '1') {
                 parecer += `Os relatórios d${artigoAluno} ${alunoTermo} e d${artigoSupervisor} ${supervisorTermo} foram concordantes, indicando o bom desempenho d${artigoAluno} ${alunoTermo} e o cumprimento dos objetivos propostos.`;
-                
-                // Adicionar informações adicionais se houver
                 const infoAdicional = document.getElementById('additionalInfo').value.trim();
                 if (infoAdicional) {
-                    const infoLimpa = infoAdicional.replace(/^Exemplo:\s*/i, '');
-                    parecer += ` ${infoLimpa}`;
+                    parecer += ` ${infoAdicional.replace(/^Exemplo:\s*/i, '')}`;
                 }
             } else {
                 const discordancia = document.getElementById('discordance').value;
@@ -545,111 +689,646 @@
                 parecer += `Os relatórios d${artigoAluno} ${alunoTermo} e d${artigoSupervisor} ${supervisorTermo} apresentaram discordâncias. ${discordancia}`;
             }
 
-            // Adicionar sugestões se houver - tudo em um único parágrafo
             const sugestaoAluno = document.getElementById('sugestao-aluno').value.trim();
             const sugestaoSupervisor = document.getElementById('sugestao-supervisor').value.trim();
+            if (sugestaoAluno) parecer += ` ${sugestaoAluno.replace(/^Exemplo:\s*/i, '')}`;
+            if (sugestaoSupervisor) parecer += ` ${sugestaoSupervisor.replace(/^Exemplo:\s*/i, '')}`;
 
-            if (sugestaoAluno) {
-                // Remove "Exemplo:" se o usuário não apagou
-                const sugestaoLimpa = sugestaoAluno.replace(/^Exemplo:\s*/i, '');
-                parecer += ` ${sugestaoLimpa}`;
-            }
-
-            if (sugestaoSupervisor) {
-                // Remove "Exemplo:" se o usuário não apagou
-                const sugestaoLimpa = sugestaoSupervisor.replace(/^Exemplo:\s*/i, '');
-                parecer += ` ${sugestaoLimpa}`;
-            }
-
-            // Exibir resultado
             document.getElementById('resultContent').textContent = parecer;
             document.getElementById('result').classList.add('show');
-            
-            // Scroll suave até o resultado
+            document.getElementById('btnProximo').style.display = importAtivo() ? '' : 'none';
             document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            if (importAtivo()) onParecerGerado(parecer);
         }
 
         function copiarParecer() {
             const parecer = document.getElementById('resultContent').textContent;
-            const btn = document.querySelector('.copy-btn');
-            
-            // Fallback para navegadores que não suportam clipboard API
+            const btn = document.getElementById('btnCopiar');
+            const marcarCopiado = () => {
+                const originalText = btn.textContent;
+                btn.textContent = 'Copiado!';
+                btn.classList.add('copied');
+                setTimeout(() => { btn.textContent = originalText; btn.classList.remove('copied'); }, 2000);
+            };
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(parecer).then(function() {
-                    const originalText = btn.textContent;
-                    btn.textContent = 'Copiado!';
-                    btn.classList.add('copied');
-                    
-                    setTimeout(() => {
-                        btn.textContent = originalText;
-                        btn.classList.remove('copied');
-                    }, 2000);
-                }).catch(function(err) {
-                    // Fallback método alternativo
-                    copiarTextoAlternativo(parecer);
-                });
+                navigator.clipboard.writeText(parecer).then(marcarCopiado).catch(() => copiarTextoAlternativo(parecer, marcarCopiado));
             } else {
-                // Método alternativo para navegadores mais antigos
-                copiarTextoAlternativo(parecer);
+                copiarTextoAlternativo(parecer, marcarCopiado);
             }
         }
-        
-        function copiarTextoAlternativo(texto) {
+
+        function copiarTextoAlternativo(texto, ok) {
             const textArea = document.createElement('textarea');
             textArea.value = texto;
             textArea.style.position = 'fixed';
             textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
             document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                const btn = document.querySelector('.copy-btn');
-                const originalText = btn.textContent;
-                btn.textContent = 'Copiado!';
-                btn.classList.add('copied');
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.classList.remove('copied');
-                }, 2000);
-            } catch (err) {
-                alert('Não foi possível copiar o texto. Por favor, selecione e copie manualmente.');
-            }
-            
+            textArea.focus(); textArea.select();
+            try { document.execCommand('copy'); if (ok) ok(); }
+            catch (err) { alert('Não foi possível copiar o texto. Selecione e copie manualmente.'); }
             document.body.removeChild(textArea);
         }
 
-        function novoParecer() {
-            // Limpar todos os campos
-            document.getElementById('aluno').value = '';
-            document.getElementById('disciplina').value = '';
-            document.getElementById('supervisor').value = '';
+        // Limpa apenas os campos de avaliação/sugestões (mantém aluno/disciplina/supervisor)
+        function limparAvaliacao() {
             document.getElementById('discordance').value = '';
             document.getElementById('additionalInfo').value = '';
             document.getElementById('sugestao-aluno').value = '';
             document.getElementById('sugestao-supervisor').value = '';
-            
-            // Desmarcar radio buttons
-            document.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.checked = false;
-            });
-            
-            // Ocultar campos condicionais
+            document.querySelectorAll('input[name="avaliacao"]').forEach(r => r.checked = false);
             document.getElementById('discordanceField').classList.remove('show');
             document.getElementById('additionalInfoField').classList.remove('show');
-            
-            // Ocultar resultado
             document.getElementById('result').classList.remove('show');
-            
-            // Scroll para o topo
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Focar no primeiro campo
-            document.getElementById('aluno').focus();
         }
+
+        /* ============================================================
+           IMPORTAÇÃO DE PDF — estado e utilidades
+           ============================================================ */
+        const estado = {
+            file: null, blobUrl: null, fingerprint: null,
+            pares: [], indiceAtual: 0, concluidos: new Set()
+        };
+        const importAtivo = () => estado.pares && estado.pares.length > 0;
+
+        const $ = id => document.getElementById(id);
+
+        function stripDiacritics(s) { return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+        function flatten(s) { return stripDiacritics(s).toLowerCase().replace(/\s+/g, ''); }
+        function cleanSpaces(s) { return (s || '').replace(/[ \t]+/g, ' ').replace(/\s*\n\s*/g, '\n').trim(); }
+
+        function normName(s) {
+            return stripDiacritics(s || '')
+                .toLowerCase()
+                .replace(/\b(prof|profa|dr|dra|sr|sra|me|ms)\.?\b/g, ' ')
+                .replace(/[^a-z\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function levenshtein(a, b) {
+            a = a || ''; b = b || '';
+            const m = a.length, n = b.length;
+            if (!m) return n; if (!n) return m;
+            const dp = Array.from({ length: n + 1 }, (_, i) => i);
+            for (let i = 1; i <= m; i++) {
+                let prev = dp[0]; dp[0] = i;
+                for (let j = 1; j <= n; j++) {
+                    const tmp = dp[j];
+                    dp[j] = Math.min(dp[j] + 1, dp[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+                    prev = tmp;
+                }
+            }
+            return dp[n];
+        }
+        function similarity(a, b) {
+            if (!a || !b) return 0;
+            const maxLen = Math.max(a.length, b.length);
+            return maxLen === 0 ? 0 : 1 - levenshtein(a, b) / maxLen;
+        }
+
+        function saveBlob(blob, filename) {
+            const a = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            a.href = url; a.download = filename;
+            document.body.appendChild(a); a.click();
+            setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1500);
+        }
+
+        function toast(msg) {
+            const t = $('toast'); t.textContent = msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2600);
+        }
+
+        function progresso(texto, pct) {
+            $('progressBox').classList.add('show');
+            $('progressText').textContent = texto;
+            if (typeof pct === 'number') $('progressFill').style.width = Math.max(0, Math.min(100, pct)) + '%';
+        }
+        function esconderProgresso() { $('progressBox').classList.remove('show'); $('progressFill').style.width = '0%'; }
+
+        function mostrarErro(msg) {
+            const e = $('importError'); e.textContent = msg; e.classList.add('show');
+        }
+        function limparErro() { $('importError').classList.remove('show'); }
+
+        /* ============================================================
+           Extração de campos
+           ============================================================ */
+        const STOPWORDS = [
+            'Nº USP', 'N° USP', 'No USP', 'N USP', 'UNIDADE', 'DEPARTAMENTO', 'SEMESTRE',
+            'PROGRAMA DE', 'ORIENTADOR', 'MESTRADO', 'DOUTORADO', 'DATA', 'ANO:',
+            'Código da', 'Documento assinado', 'Assinado eletronicamente', 'CPF', 'AVALIAÇÃO'
+        ];
+
+        function cortarEm(valor, extraStops) {
+            let v = valor;
+            const stops = STOPWORDS.concat(extraStops || []);
+            let minIdx = -1;
+            for (const sw of stops) {
+                const idx = v.toUpperCase().indexOf(sw.toUpperCase());
+                if (idx > 0 && (minIdx === -1 || idx < minIdx)) minIdx = idx;
+            }
+            if (minIdx > 0) v = v.slice(0, minIdx);
+            return v.replace(/[_\.\s]+$/g, '').replace(/^\s+/, '').trim();
+        }
+
+        function getCampo(texto, regex, extraStops) {
+            const m = texto.match(regex);
+            if (!m) return '';
+            return cortarEm(cleanSpaces(m[1]), extraStops);
+        }
+
+        function extrairCampos(bloco) {
+            const t = bloco.textoBruto;
+            bloco.campos = {};
+            if (bloco.tipo === 'RELATORIO') {
+                bloco.campos.aluno = getCampo(t, /\bALUN[OA]\s*:\s*(?!AVALIAD)([^\n]+)/i);
+                bloco.campos.programa = getCampo(t, /PROGRAMA\s+DE\s+P[ÓO]S[- ]GRADUA[ÇC][ÃA]O\s*:\s*([^\n]+)/i);
+                bloco.campos.orientador = getCampo(t, /ORIENTADOR[A]?\s*:\s*([^\n]+)/i);
+                bloco.campos.disciplina = getCampo(t, /NOME\s+DA\s+DISCIPLINA\s*:\s*([^\n]+)/i, ['(junto']);
+                bloco.campos.supervisor = getCampo(t, /(?:^|\n)\s*SUPERVISOR[A]?\s*:\s*([^\n]+)/i);
+            } else if (bloco.tipo === 'FICHA') {
+                bloco.campos.aluno = getCampo(t, /ALUN[OA]\s+AVALIAD[OA]\s*:\s*([^\n]+)/i);
+                let disc = getCampo(t, /(?:^|\n)\s*DISCIPLINA\s*:\s*([^\n]+)/i, ['(junto']);
+                disc = disc.replace(/^\d{6,7}\s*[-–]\s*/, '').trim();
+                bloco.campos.disciplina = disc;
+                bloco.campos.supervisor = getCampo(t, /NOME\s+D[OA]\s+SUPERVISOR[A]?\s*:\s*([^\n]+)/i);
+            }
+        }
+
+        /* ============================================================
+           Classificação de páginas e segmentação
+           ============================================================ */
+        function classificarInicio(textoPagina) {
+            const f = flatten(textoPagina);
+            if (f.includes('relatoriodoestagiario') &&
+                (f.includes('orientador') || f.includes('programadeposgraduacao') || f.includes('nomedadisciplina'))) {
+                return 'RELATORIO';
+            }
+            if (f.includes('fichadeavaliacao') &&
+                (f.includes('alunoavaliado') || f.includes('alunaavaliada') ||
+                 f.includes('alunoavaliada') || f.includes('alunaavaliado'))) {
+                return 'FICHA';
+            }
+            return null; // continuação ou manifesto
+        }
+
+        function segmentar(pages) {
+            const blocos = [];
+            let atual = null;
+            for (const p of pages) {
+                const tipo = classificarInicio(p.text);
+                if (tipo) {
+                    if (atual) atual.paginaFim = p.n - 1;
+                    atual = { tipo, paginaInicio: p.n, paginaFim: p.n, textos: [p.text], usouOCR: p.ocr };
+                    blocos.push(atual);
+                } else if (atual) {
+                    atual.textos.push(p.text);
+                    atual.paginaFim = p.n;
+                    atual.usouOCR = atual.usouOCR || p.ocr;
+                }
+                // páginas antes do primeiro bloco são ignoradas
+            }
+            for (const b of blocos) { b.textoBruto = cleanSpaces(b.textos.join('\n')); extrairCampos(b); }
+            return blocos;
+        }
+
+        /* ============================================================
+           Pareamento aluno ↔ supervisor
+           ============================================================ */
+        function montarPar(rel, ficha, confianca) {
+            const avisos = [];
+            const alunoRaw = (rel && rel.campos.aluno) || (ficha && ficha.campos.aluno) || '';
+            const disciplina = (rel && rel.campos.disciplina) || (ficha && ficha.campos.disciplina) || '';
+            const supRaw = (ficha && ficha.campos.supervisor) || (rel && rel.campos.supervisor) || '';
+            const aluno = padronizarNomeAluno(alunoRaw);
+            const generoAluno = inferirGenero(alunoRaw);
+            const generoSupervisor = inferirGenero(supRaw);
+            const supervisor = padronizarNomeSupervisor(supRaw, generoSupervisor);
+            const temRelatorio = !!rel, temFicha = !!ficha;
+            if (!temRelatorio) avisos.push('Ficha do supervisor sem relatório do aluno correspondente.');
+            if (!temFicha) avisos.push('Relatório do aluno sem ficha do supervisor.');
+            if (confianca === 'media') avisos.push('Pareamento por similaridade — conferir nomes.');
+            if (!aluno) avisos.push('Nome do aluno não extraído — preencher manualmente.');
+            if (!disciplina) avisos.push('Disciplina não extraída — preencher manualmente.');
+            if (!supervisor) avisos.push('Supervisor não extraído — preencher manualmente.');
+            const usouOCR = (rel && rel.usouOCR) || (ficha && ficha.usouOCR) || false;
+            const ordem = rel ? rel.paginaInicio : (ficha.paginaInicio + 0.5);
+            return {
+                aluno, disciplina, supervisor,
+                generoAluno, generoSupervisor,
+                paginaRelatorioAluno: rel ? rel.paginaInicio : ficha.paginaInicio,
+                temRelatorio, temFicha, usouOCR, confianca, avisos, ordem,
+                parecerTexto: null
+            };
+        }
+
+        function parear(blocos) {
+            const rels = blocos.filter(b => b.tipo === 'RELATORIO');
+            const fichas = blocos.filter(b => b.tipo === 'FICHA');
+            const usadas = new Set();
+            const pares = [];
+
+            for (const r of rels) {
+                const key = normName(r.campos.aluno);
+                let fi = -1, conf = 'alta';
+                if (key) fi = fichas.findIndex((f, idx) => !usadas.has(idx) && normName(f.campos.aluno) === key);
+                if (fi < 0) {
+                    let best = -1, bestS = 0;
+                    fichas.forEach((f, idx) => {
+                        if (usadas.has(idx)) return;
+                        const s = similarity(key, normName(f.campos.aluno));
+                        if (s > bestS) { bestS = s; best = idx; }
+                    });
+                    if (best >= 0 && bestS >= 0.72) { fi = best; conf = 'media'; }
+                }
+                let ficha = null;
+                if (fi >= 0) { usadas.add(fi); ficha = fichas[fi]; }
+                pares.push(montarPar(r, ficha, ficha ? conf : 'baixa'));
+            }
+            fichas.forEach((f, idx) => { if (!usadas.has(idx)) pares.push(montarPar(null, f, 'baixa')); });
+
+            pares.sort((a, b) => a.ordem - b.ordem);
+            return pares;
+        }
+
+        /* ============================================================
+           Pipeline de processamento do PDF
+           ============================================================ */
+        function itemsToText(tc) {
+            let out = '';
+            for (const it of tc.items) {
+                if (typeof it.str !== 'string') continue;
+                out += it.str;
+                out += it.hasEOL ? '\n' : ' ';
+            }
+            return out;
+        }
+
+        async function renderPageToCanvas(page, scale) {
+            const viewport = page.getViewport({ scale });
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.ceil(viewport.width);
+            canvas.height = Math.ceil(viewport.height);
+            const ctx = canvas.getContext('2d');
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            return canvas;
+        }
+
+        async function processarPDF(file) {
+            limparErro();
+            $('statusPanel').classList.remove('show');
+            $('navPanel').classList.remove('show');
+            $('doneBanner').classList.remove('show');
+            progresso('Lendo o PDF…', 2);
+
+            let buf;
+            try { buf = await file.arrayBuffer(); }
+            catch (e) { esconderProgresso(); mostrarErro('Não foi possível ler o arquivo.'); return; }
+
+            let doc;
+            try {
+                doc = await pdfjsLib.getDocument({ data: buf }).promise;
+            } catch (e) {
+                esconderProgresso();
+                if (e && e.name === 'PasswordException') mostrarErro('Este PDF está protegido por senha.');
+                else mostrarErro('Arquivo inválido ou corrompido. Verifique se é um PDF válido.');
+                return;
+            }
+
+            const numPages = doc.numPages;
+            const pages = [];
+
+            // Passo 1 — texto nativo
+            for (let n = 1; n <= numPages; n++) {
+                progresso(`Lendo página ${n} de ${numPages}…`, (n / numPages) * 45);
+                const page = await doc.getPage(n);
+                let text = '';
+                try { const tc = await page.getTextContent(); text = itemsToText(tc); }
+                catch (e) { text = ''; }
+                pages.push({ n, text, ocr: false, page });
+            }
+
+            // Passo 2 — OCR nas páginas sem texto útil
+            const precisamOCR = pages.filter(p => flatten(p.text).length < 30);
+            if (precisamOCR.length > 0) {
+                if (typeof Tesseract === 'undefined') {
+                    toast('OCR indisponível (Tesseract não carregou). Páginas em imagem ficarão em branco.');
+                } else {
+                    progresso('Preparando OCR em português…', 48);
+                    let worker;
+                    try {
+                        worker = await Tesseract.createWorker('por', 1, {
+                            logger: m => {
+                                if (m.status === 'recognizing text') {
+                                    progresso(`OCR em andamento… ${Math.round((m.progress || 0) * 100)}%`, 48 + (m.progress || 0) * 30);
+                                }
+                            }
+                        });
+                        let k = 0;
+                        for (const p of precisamOCR) {
+                            k++;
+                            progresso(`OCR na página ${p.n} (${k}/${precisamOCR.length})…`, 48 + (k / precisamOCR.length) * 30);
+                            const canvas = await renderPageToCanvas(p.page, 2.2);
+                            const { data: { text } } = await worker.recognize(canvas);
+                            p.text = text || '';
+                            p.ocr = true;
+                        }
+                    } catch (e) {
+                        toast('Falha no OCR. Você pode preencher manualmente os campos faltantes.');
+                    } finally {
+                        if (worker) { try { await worker.terminate(); } catch (e) {} }
+                    }
+                }
+            }
+
+            // Passo 3 — segmentação + extração
+            progresso('Identificando relatórios…', 82);
+            const blocos = segmentar(pages);
+
+            // Passo 4 — pareamento
+            progresso('Pareando aluno e supervisor…', 92);
+            const pares = parear(blocos);
+
+            if (pares.length === 0) {
+                esconderProgresso();
+                mostrarErro('Nenhum relatório reconhecido no arquivo. Verifique se é o PDF correto de relatórios PAE.');
+                return;
+            }
+
+            // Estado + blob
+            if (estado.blobUrl) { try { URL.revokeObjectURL(estado.blobUrl); } catch (e) {} }
+            estado.file = file;
+            estado.blobUrl = URL.createObjectURL(file);
+            estado.pares = pares;
+            estado.indiceAtual = 0;
+            estado.concluidos = new Set();
+            estado.fingerprint = `${file.name}|${file.size}|${numPages}`;
+
+            progresso('Concluído.', 100);
+            setTimeout(esconderProgresso, 400);
+
+            renderStatus();
+            const retomou = tentarRetomar();
+            $('statusPanel').classList.add('show');
+            $('navPanel').classList.add('show');
+            carregarPar(estado.indiceAtual);
+            if (retomou) toast(`Retomado em ${estado.indiceAtual + 1} de ${estado.pares.length}.`);
+        }
+
+        /* ============================================================
+           Painel de status
+           ============================================================ */
+        function renderStatus() {
+            const pares = estado.pares;
+            const totalAlunos = pares.filter(p => p.temRelatorio).length;
+            const comFicha = pares.filter(p => p.temRelatorio && p.temFicha).length;
+            $('statAlunos').textContent = totalAlunos;
+            $('statFichas').textContent = comFicha;
+            $('statTotal').textContent = pares.length;
+
+            const problemas = [];
+            pares.forEach((p, i) => {
+                p.avisos.forEach(a => problemas.push(`Item ${i + 1} (${p.aluno || 'sem nome'}): ${a}`));
+            });
+
+            const wrap = $('warnings');
+            if (problemas.length === 0) {
+                wrap.innerHTML = '<ul><li class="ok">✓ Todos os relatórios têm ficha do supervisor e os campos foram extraídos.</li></ul>';
+            } else {
+                wrap.innerHTML = '<strong style="font-size:13px;color:#475569;">Pontos de atenção:</strong><ul>' +
+                    problemas.map(t => `<li>${escapeHtml(t)}</li>`).join('') + '</ul>';
+            }
+        }
+
+        function escapeHtml(s) {
+            return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        /* ============================================================
+           Navegação entre pares
+           ============================================================ */
+        function carregarPar(i) {
+            const p = estado.pares[i];
+            if (!p) return;
+            estado.indiceAtual = i;
+
+            $('aluno').value = p.aluno || '';
+            $('disciplina').value = p.disciplina || '';
+            $('supervisor').value = p.supervisor || '';
+
+            // gênero (não há blur ao preencher via JS): usa o gênero inferido do nome real
+            document.querySelectorAll('input[name="aluno-gender"]').forEach(r => r.checked = false);
+            document.querySelectorAll('input[name="supervisor-gender"]').forEach(r => r.checked = false);
+            marcarGenero('aluno', p.generoAluno || inferirGenero(p.aluno));
+            marcarGenero('supervisor', p.generoSupervisor || inferirGenero(p.supervisor));
+
+            limparAvaliacao();
+
+            // indicador de posição
+            $('posIndicator').textContent = `Avaliando ${i + 1} de ${estado.pares.length} — ${p.aluno || 'sem nome'}`;
+            $('posSub').textContent = p.disciplina ? `Disciplina: ${p.disciplina}` : '';
+
+            // badges
+            const badges = [];
+            if (estado.concluidos.has(i)) badges.push('<span class="badge badge-ok">avaliado</span>');
+            if (p.usouOCR) badges.push('<span class="badge badge-ocr">OCR — conferir</span>');
+            if (p.confianca === 'media') badges.push('<span class="badge badge-warn">conferir pareamento</span>');
+            if (!p.temFicha) badges.push('<span class="badge badge-warn">sem ficha do supervisor</span>');
+            if (!p.temRelatorio) badges.push('<span class="badge badge-warn">sem relatório do aluno</span>');
+            $('badges').innerHTML = badges.join('');
+
+            // botão abrir PDF
+            $('btnOpen').textContent = `Abrir relatório no PDF (página ${p.paginaRelatorioAluno})`;
+
+            // estados dos botões
+            $('btnPrev').disabled = (i === 0);
+            $('btnNext').disabled = false;
+            $('btnNext').textContent = (i === estado.pares.length - 1) ? 'Concluir avaliação' : 'Avaliar próximo ▶';
+            $('btnExport').disabled = (estado.concluidos.size === 0);
+            $('doneBanner').classList.remove('show');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function onParecerGerado(texto) {
+            const i = estado.indiceAtual;
+            if (estado.pares[i]) estado.pares[i].parecerTexto = texto;
+            estado.concluidos.add(i);
+            salvarProgresso();
+            $('btnExport').disabled = false;
+            // atualiza badge "avaliado" sem recarregar tudo
+            if (!$('badges').innerHTML.includes('badge-ok')) {
+                $('badges').innerHTML = '<span class="badge badge-ok">avaliado</span>' + $('badges').innerHTML;
+            }
+            if (i === estado.pares.length - 1) mostrarConcluido();
+        }
+
+        function proximo() {
+            const i = estado.indiceAtual;
+            if (i < estado.pares.length - 1) {
+                carregarPar(i + 1);
+                salvarProgresso();
+            } else {
+                mostrarConcluido();
+            }
+        }
+        function anterior() { if (estado.indiceAtual > 0) carregarPar(estado.indiceAtual - 1); }
+
+        function pararSalvar() {
+            salvarProgresso();
+            toast(`Posição salva (parou em ${estado.indiceAtual + 1} de ${estado.pares.length}).`);
+        }
+
+        function mostrarConcluido() {
+            const todos = estado.concluidos.size >= estado.pares.length;
+            const banner = $('doneBanner');
+            banner.textContent = todos
+                ? '✅ Todos os relatórios foram avaliados. Use “Exportar todos (.docx)”.'
+                : `Você chegou ao último item. ${estado.concluidos.size} de ${estado.pares.length} avaliados.`;
+            banner.classList.add('show');
+            banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function abrirPDF() {
+            const p = estado.pares[estado.indiceAtual];
+            if (!p || !estado.blobUrl) return;
+            window.open(estado.blobUrl + '#page=' + p.paginaRelatorioAluno, '_blank', 'noopener');
+        }
+
+        /* ============================================================
+           Persistência (localStorage)
+           ============================================================ */
+        function chaveProgresso() { return 'parecerPAE:progresso:' + estado.fingerprint; }
+
+        function salvarProgresso() {
+            try {
+                const pareceres = {};
+                estado.pares.forEach((p, i) => { if (p.parecerTexto) pareceres[i] = p.parecerTexto; });
+                localStorage.setItem(chaveProgresso(), JSON.stringify({
+                    indiceAtual: estado.indiceAtual,
+                    concluidos: [...estado.concluidos],
+                    pareceres
+                }));
+            } catch (e) { /* localStorage indisponível: ignora */ }
+        }
+
+        function tentarRetomar() {
+            let dados;
+            try { dados = JSON.parse(localStorage.getItem(chaveProgresso()) || 'null'); }
+            catch (e) { dados = null; }
+            if (!dados || typeof dados.indiceAtual !== 'number') return false;
+            const total = estado.pares.length;
+            const pos = Math.min(dados.indiceAtual, total - 1);
+            const ok = confirm(`Há progresso salvo para este arquivo (parou em ${pos + 1} de ${total}). Deseja retomar?`);
+            if (!ok) { try { localStorage.removeItem(chaveProgresso()); } catch (e) {} return false; }
+            estado.indiceAtual = pos;
+            estado.concluidos = new Set(dados.concluidos || []);
+            if (dados.pareceres) {
+                Object.entries(dados.pareceres).forEach(([idx, txt]) => {
+                    const k = parseInt(idx, 10);
+                    if (estado.pares[k]) estado.pares[k].parecerTexto = txt;
+                });
+            }
+            return true;
+        }
+
+        /* ============================================================
+           Exportação em .docx
+           ============================================================ */
+        async function exportarDocx() {
+            if (typeof docx === 'undefined') {
+                alert('A biblioteca de geração de .docx não carregou. Verifique a conexão com a internet.');
+                return;
+            }
+            const avaliados = estado.pares.filter(p => p.parecerTexto);
+            if (avaliados.length === 0) { toast('Nenhum parecer gerado ainda.'); return; }
+
+            const { Document, Packer, Paragraph, TextRun, HeadingLevel } = docx;
+            const children = [];
+            children.push(new Paragraph({ heading: HeadingLevel.TITLE, children: [new TextRun('Pareceres PAE — FFCLRP-USP')] }));
+            children.push(new Paragraph({ children: [new TextRun({ text: 'Gerado em ' + new Date().toLocaleString('pt-BR'), italics: true, color: '666666' })] }));
+
+            estado.pares.forEach((p, idx) => {
+                if (!p.parecerTexto) return;
+                children.push(new Paragraph({ text: '' }));
+                children.push(new Paragraph({ heading: HeadingLevel.HEADING2, children: [new TextRun({ text: p.aluno || ('Item ' + (idx + 1)), bold: true })] }));
+                children.push(new Paragraph({ children: [new TextRun({ text: 'Disciplina: ' + (p.disciplina || '—'), italics: true, color: '444444' })] }));
+                children.push(new Paragraph({ children: [new TextRun({ text: 'Supervisor(a): ' + (p.supervisor || '—'), italics: true, color: '444444' })] }));
+                children.push(new Paragraph({ text: '' }));
+                // remove o cabeçalho de identificação repetido (Aluno(a)/Disciplina/Supervisor(a)) do corpo
+                const sep = p.parecerTexto.indexOf('\n\n');
+                const corpo = sep >= 0 ? p.parecerTexto.slice(sep + 2) : p.parecerTexto;
+                corpo.split(/\n{2,}/).forEach(par => {
+                    const linhas = par.split('\n');
+                    const runs = [];
+                    linhas.forEach((ln, k) => { if (k > 0) runs.push(new TextRun({ break: 1 })); runs.push(new TextRun(ln)); });
+                    children.push(new Paragraph({ children: runs }));
+                });
+            });
+
+            const documento = new Document({ sections: [{ children }] });
+            try {
+                const blob = await Packer.toBlob(documento);
+                saveBlob(blob, 'Pareceres_PAE.docx');
+                toast(`Exportados ${avaliados.length} parecer(es) em .docx.`);
+            } catch (e) {
+                alert('Falha ao gerar o .docx: ' + (e && e.message ? e.message : e));
+            }
+        }
+
+        /* ============================================================
+           Ligações de eventos (upload, drag&drop, botões)
+           ============================================================ */
+        const dropzone = $('dropzone');
+        const fileInput = $('fileInput');
+
+        dropzone.addEventListener('click', () => fileInput.click());
+        dropzone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+        fileInput.addEventListener('change', e => { const f = e.target.files[0]; if (f) receberArquivo(f); fileInput.value = ''; });
+
+        ['dragenter', 'dragover'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dropzone.classList.add('dragover'); }));
+        ['dragleave', 'dragend', 'drop'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('dragover'); }));
+        dropzone.addEventListener('drop', e => {
+            const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+            if (f) receberArquivo(f);
+        });
+        // evita que soltar o arquivo fora da zona abra o PDF no navegador
+        window.addEventListener('dragover', e => e.preventDefault());
+        window.addEventListener('drop', e => e.preventDefault());
+
+        function receberArquivo(f) {
+            if (f.type !== 'application/pdf' && !/\.pdf$/i.test(f.name)) {
+                mostrarErro('Selecione um arquivo PDF.');
+                return;
+            }
+            processarPDF(f);
+        }
+
+        $('btnOpen').addEventListener('click', abrirPDF);
+        $('btnPrev').addEventListener('click', anterior);
+        $('btnNext').addEventListener('click', proximo);
+        $('btnStop').addEventListener('click', pararSalvar);
+        $('btnExport').addEventListener('click', exportarDocx);
+
+        $('btnGerar').addEventListener('click', gerarRelatorio);
+        $('btnCopiar').addEventListener('click', copiarParecer);
+        $('btnProximo').addEventListener('click', proximo);
+
+        // Ao corrigir o gênero do supervisor, re-padroniza o título (Prof. Dr. / Profa. Dra.)
+        document.querySelectorAll('input[name="supervisor-gender"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const campo = document.getElementById('supervisor');
+                if (!campo.value.trim()) return;
+                const nome = padronizarNomeSupervisor(campo.value, this.value);
+                campo.value = nome;
+                if (importAtivo() && estado.pares[estado.indiceAtual]) {
+                    estado.pares[estado.indiceAtual].supervisor = nome;
+                    estado.pares[estado.indiceAtual].generoSupervisor = this.value;
+                }
+            });
+        });
     </script>
 </body>
 </html>
